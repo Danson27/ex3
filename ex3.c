@@ -93,7 +93,7 @@ void populateADayOfSalesForAllBrands() {
         printf ("What day would you like to analyze?\n");
         scanf("%d", &dayNumber);
     }
-    printf ("In day number %d \n", dayNumber);
+    printf ("In day number %d: \n", dayNumber);
     for (int brand = 0; brand < NUM_OF_BRANDS; brand++) {
         for (int type = 0; type < NUM_OF_TYPES; type++) {
             sum += cube[(dayNumber-1)][brand][type];
@@ -126,7 +126,7 @@ void printAllData() {
         for (int days = 0; days <=dayCounter-1; days++) {
             printf("Day %d-", days+1);
             for (int type = 0; type < NUM_OF_TYPES; type++) {
-                printf("%s: %d ", types[type], cube[days][brand][type]);
+                printf(" %s: %d ", types[type], cube[days][brand][type]);
             }
             printf ("\n");
         }
@@ -165,9 +165,9 @@ void provideOverallInsights () {
     brandMaxIndex += brandMaxIndexReturns(sumOfBrands, NUM_OF_BRANDS);
     typeMaxSum += typeMaxSumReturns (sumTypes, NUM_OF_TYPES);
     typeMaxIndex += typeMaxIndexReturns(sumTypes, NUM_OF_TYPES);
-    printf("The best-selling brand overall is %s:%d$ \n", brands[brandMaxIndex], brandMaxSum);
-    printf ("The best-selling type of car is %s:%d$ \n", types[typeMaxIndex], typeMaxSum);
-    printf("The most profitable day was day number %d:%d$\n", (dayMaxIndex+1), dayMaxSum);
+    printf("The best-selling brand overall is %s: %d$ \n", brands[brandMaxIndex], brandMaxSum);
+    printf ("The best-selling type of car is %s: %d$ \n", types[typeMaxIndex], typeMaxSum);
+    printf("The most profitable day was day number %d: %d$\n", (dayMaxIndex+1), dayMaxSum);
 
 }
 
