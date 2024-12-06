@@ -1,10 +1,3 @@
-
-/******************
-Name: Dan Sonnenblick
-ID: 345287882
-Assignment: ex3
-*******************/
-
 #include <stdio.h>
 
 
@@ -27,6 +20,12 @@ char brands[NUM_OF_BRANDS][BRANDS_NAMES] = {"Toyoga", "HyunNight", "Mazduh", "Fo
 char types[NUM_OF_TYPES][TYPES_NAMES] = {"SUV", "Sedan", "Coupe", "GT"};
 int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES];
 int dayCounter = 0;
+int dayMaxIndexReturns (int arr[], int numOfDays);
+int dayMaxSumReturns (int arr[], int numOfDays);
+int brandMaxSumReturns (int arr[], int numOfBrands);
+int brandMaxIndexReturns (int arr[], int numOfBrands);
+int typeMaxSumReturns (int arr[], int numOfTypes);
+int typeMaxIndexReturns (int arr[], int numOfTypes);
 void initializeCube () {
     for (int day = 0; day < DAYS_IN_YEAR; day++) {
         for (int brand = 0; brand < NUM_OF_BRANDS; brand++) {
@@ -171,12 +170,7 @@ void provideOverallInsights () {
     printf("The most profitable day was day number %d:%d$\n", (dayMaxIndex+1), dayMaxSum);
 
 }
-int dayMaxIndexReturns (int arr[], int numOfDays);
-int dayMaxSumReturns (int arr[], int numOfDays);
-int brandMaxSumReturns (int arr[], int numOfBrands);
-int brandMaxIndexReturns (int arr[], int numOfBrands);
-int typeMaxSumReturns (int arr[], int numOfTypes);
-int typeMaxIndexReturns (int arr[], int numOfTypes);
+
 
 
 // for case 6
@@ -202,7 +196,6 @@ void provideDeltaMetrics() {
 
     int main() {
         initializeCube();
-        int day = 0;
         int choice;
         printMenu();
         scanf("%d", &choice);
