@@ -21,14 +21,6 @@ Assignment: ex3
 #define deltas  6
 #define done  7
 
-// global variables
-char brands[NUM_OF_BRANDS][BRANDS_NAMES] = {"Toyoga", "HyunNight", "Mazduh", "FolksVegan", "Key-Yuh"};
-char types[NUM_OF_TYPES][TYPES_NAMES] = {"SUV", "Sedan", "Coupe", "GT"};
-int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES];
-
-// tracks the current day of data entry
-int dayCounter = 0;
-
 // function signatures
 int dayMaxIndexReturns (int arr[], int numOfDays);
 int dayMaxSumReturns (int arr[], int numOfDays);
@@ -38,7 +30,7 @@ int typeMaxSumReturns (int arr[], int numOfTypes);
 int typeMaxIndexReturns (int arr[], int numOfTypes);
 
 // Initializes the cube with the default value
-void initializeCube () {
+void initializeCube (int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES]) {
     for (int day = 0; day < DAYS_IN_YEAR; day++) {
         for (int brand = 0; brand < NUM_OF_BRANDS; brand++) {
             for (int type = 0; type < NUM_OF_TYPES; type++) {
@@ -58,7 +50,9 @@ void printMenu(){
            "7.exit\n");
 }
 // Case 2: Populate sales data for all brands on a specific day
-void populateADayOfSalesForAllBrands() {
+int populateADayOfSalesForAllBrands(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],
+    char brands[NUM_OF_BRANDS][BRANDS_NAMES],
+    int dayCounter) {
 // Tracks how many brands' data has been entered
     int stopper = 0;
 // Tracks which brands have been entered
@@ -93,10 +87,15 @@ void populateADayOfSalesForAllBrands() {
             stopper++;
         }
     // Increment the day counter
-    dayCounter++;
+    return dayCounter+1;
     }
 // Case 3: Provide daily statistics for a specific day
-    void provideDailyStats () {
+    void provideDailyStats (
+    int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],
+char brands[NUM_OF_BRANDS][BRANDS_NAMES],
+char types[NUM_OF_TYPES][TYPES_NAMES],
+int dayCounter
+    ) {
     int dayNumber;
     int sum = 0;
     int brandMaxSum = 0;
@@ -140,7 +139,11 @@ void populateADayOfSalesForAllBrands() {
 
 
 //for case 4
-void printAllData() {
+void printAllData(
+    int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],
+    char brands[NUM_OF_BRANDS][BRANDS_NAMES],
+    char types[NUM_OF_TYPES][TYPES_NAMES],
+    int dayCounter) {
         // Iterate through each brand
     for (int brand = 0; brand < NUM_OF_BRANDS; brand++) {
         // Print the sales header for the current brand
@@ -167,12 +170,15 @@ void printAllData() {
 The best-selling brand overall is X:sales$
 The best-selling type of car is Y:sales$
 The most profitable day was day number Z:sales$*/
-void provideOverallInsights () {
+void provideOverallInsights (int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],
+    char brands[NUM_OF_BRANDS][BRANDS_NAMES],
+    char types[NUM_OF_TYPES][TYPES_NAMES],
+    int dayCounter) {
     // Arrays to store the total sales data for brands, types, and days
     int sumOfBrands [NUM_OF_BRANDS] = {0};
     int sumTypes[NUM_OF_TYPES] = {0};
     int sumDays [DAYS_IN_YEAR] = {0};
-    
+
     // Variables to store the maximum sales and their respective indices
     int dayMaxSum =0;
     int dayMaxIndex = 0;
@@ -198,7 +204,7 @@ void provideOverallInsights () {
     brandMaxIndex += brandMaxIndexReturns(sumOfBrands, NUM_OF_BRANDS);
     typeMaxSum += typeMaxSumReturns (sumTypes, NUM_OF_TYPES);
     typeMaxIndex += typeMaxIndexReturns(sumTypes, NUM_OF_TYPES);
-    
+
     // Print insights
     printf("The best-selling brand overall is %s: %d$ \n", brands[brandMaxIndex], brandMaxSum);
     printf ("The best-selling type of car is %s: %d$ \n", types[typeMaxIndex], typeMaxSum);
@@ -209,14 +215,17 @@ void provideOverallInsights () {
 
 
 // for case 6
-void provideDeltaMetrics() {
+void provideDeltaMetrics(
+    int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],
+    char brands[NUM_OF_BRANDS][BRANDS_NAMES],
+    int dayCounter) {
     // Array to store the average delta for each brand
     float averageDeltas[NUM_OF_BRANDS] = {0};
 
     // Loop through each brand
     for (int brand = 0; brand < NUM_OF_BRANDS; brand++) {
         float delta = 0;
-        
+
         // Loop through each day except the last (to calculate changes)
         for (int days = 0; days < dayCounter - 1; days++) {
             // Calculate daily change in sales for the current brand and type
@@ -237,8 +246,12 @@ void provideDeltaMetrics() {
 
 
     int main() {
-        initializeCube();
-        int choice;
+    int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES];
+    char brands[NUM_OF_BRANDS][BRANDS_NAMES] = {"Toyoga", "HyunNight", "Mazduh", "FolksVegan", "Key-Yuh"};
+    char types[NUM_OF_TYPES][TYPES_NAMES] = {"SUV", "Sedan", "Coupe", "GT"};
+    int dayCounter = 0;
+    initializeCube(cube);
+    int choice;
         // Display the main menu
         printMenu();
         scanf("%d", &choice);
@@ -249,29 +262,29 @@ void provideDeltaMetrics() {
                 }
                 // Populate data for all brands
                 case addAll: {
-                    populateADayOfSalesForAllBrands ();
+                    dayCounter = populateADayOfSalesForAllBrands(cube, brands, dayCounter);
                     break;
                 }
                 // Provide stats for a specific day
                 case stats: {
-                    provideDailyStats ();
+                    provideDailyStats(cube, brands, types, dayCounter);
                     break;
                 }
                 // Print all sales data
                 case print: {
                     printf ("*****************************************\n");
-                    printAllData();
+                    printAllData(cube, brands, types, dayCounter);
                     printf ("*****************************************\n");
                     break;
                 }
                 // Provide overall insights into the data
                 case insights: {
-                    provideOverallInsights();
+                    provideOverallInsights(cube, brands, types, dayCounter);
                     break;
                 }
                 // Provide average delta metrics for each brand
                 case deltas: {
-                    provideDeltaMetrics();
+                    provideDeltaMetrics(cube, brands, dayCounter);
                     break;
                 }
                 // Handle invalid menu inputs
@@ -365,13 +378,3 @@ int typeMaxIndexReturns (int arr[], int numOfTypes) {
     }
     return index;
 }
-
-
-
-
-
-
-
-
-
-
