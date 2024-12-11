@@ -72,9 +72,8 @@ int populateADayOfSalesForAllBrands(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF
             if (brand < 0 || brand >= NUM_OF_BRANDS) {
                 printf("This brand is not valid\n");
                 continue;
-            scanf(" %d %d %d %d", &SUVSales, &sedanSales, &coupeSales, &GTSales);
-            
             }
+            scanf(" %d %d %d %d", &SUVSales, &sedanSales, &coupeSales, &GTSales);
             // Check if the brand has already been entered
             if (dataEnteredTracker [brand] == 1){
                 printf("This brand is not valid\n");
